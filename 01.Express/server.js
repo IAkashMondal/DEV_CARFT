@@ -1,4 +1,3 @@
-// this code is optimised 
 const express = require("express");
 
 const app = express();
@@ -18,55 +17,72 @@ let users = [
 // Route to get kidneys information
 app.get("/", (req, res) => {
   try {
-    const userKidneys = users[0].kidneys; // Fetch user's kidneys
+    const userKidneys = users[0].kidneys;
     const totalKidneys = userKidneys.length;
-    let healthyKidneys = 0;
+    const healthyKidneys = userKidneys.filter(
+      (kidney) => kidney.healthy
+    ).length;
+    const unhealthyKidneys = totalKidneys - healthyKidneys;
 
-    // Count the number of healthy kidneys using for of loop
-    for (let kidney of userKidneys) {
-      if (kidney.healthy) {
-        healthyKidneys++;
-      }
-    }
-
-    let unhealthyKidneys = totalKidneys - healthyKidneys; // Calculate unhealthy kidneys
-
-    // Respond with the kidney data
     res.status(200).json({
       totalKidneys,
       healthyKidneys,
       unhealthyKidneys,
     });
   } catch (error) {
-    console.error(error); // Log the error
-    res.status(500).json({ message: "Internal server error" }); // Respond with error message
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
 // Route to add a new kidney
 app.post("/add", (req, res) => {
   try {
-    const newKidney = req.body.newkidney;
-
-    // Check if newKidney is a boolean
-    if (typeof newKidney !== "boolean") {
-      return res
-        .status(400)
-        .json({ message: "Invalid input. 'newkidney' should be a boolean." });
-    }
-
-    // Add the new kidney to the user's kidneys array
+    const newKidney = req.body.healthy;
     users[0].kidneys.push({ healthy: newKidney });
 
-    // Respond with success message
     res.status(201).json({ message: "Kidney added successfully" });
   } catch (error) {
-    console.error(error); // Log the error
-    res.status(500).json({ message: "Internal server error" }); // Respond with error message
+    res.status(500).json({ message: "Internal server error" });
   }
 });
 
-// Start the server
+// Route to update all kidneys to healthy
+app.put("/update", (req, res) => {
+  if (unhealthyKidneys > 0) {
+    try {
+      users[0].kidneys.forEach((kidney) => {
+        kidney.healthy = true;
+      });
+      res.status(200).json({ message: "All kidneys updated to healthy" });
+    } catch (error) {
+      res.status(500).json({ message: "Internal server error" });
+    }
+  } else {
+    return res.status(400).json({ message: "No unhealthy kidneys to update" });
+  }
+});
+
+// Route to delete all unhealthy kidneys
+app.delete("/delete", (req, res) => {
+  try {
+    const userKidneys = users[0].kidneys;
+    const unhealthyKidneys = userKidneys.filter(
+      (kidney) => !kidney.healthy
+    ).length;
+    if (unhealthyKidneys > 0) {
+      users[0].kidneys = userKidneys.filter((kidney) => kidney.healthy);
+      res.status(200).json({ message: "Unhealthy kidneys deleted" });
+    } else {
+      return res
+        .status(400)
+        .json({ message: "No unhealthy kidneys to delete" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// the server
 app.listen(5050, () => {
   console.log("Server running on port 5050");
 });
