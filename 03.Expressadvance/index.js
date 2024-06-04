@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const jwtPassword = "123456";
@@ -88,4 +87,3 @@ app.get("/users", (req, res) => {
 app.listen(3030, () => {
   console.log("server runing on port: 3030");
 });
->>>>>>> 3e56e6c71c042aeecbd2aeef5cc95de2a07d99dc
