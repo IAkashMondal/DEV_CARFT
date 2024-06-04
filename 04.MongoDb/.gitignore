@@ -1,0 +1,8 @@
+<<<<<<< HEAD:04.MongoDb/.gitignore
+node_modules
+=======
+# Node.js dependencies
+node_modules/
+
+.gitignore
+>>>>>>> 3e56e6c71c042aeecbd2aeef5cc95de2a07d99dc:02.NodeJs/Class_1/.gitignore

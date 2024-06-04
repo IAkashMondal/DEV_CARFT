@@ -34,4 +34,8 @@
 ## 3. Local storage:
  -Local storage is a feature provided by web browsers that allows websites to store data on the user's device. This data persists even after the browser window is closed or the user navigates to a different page on the same website. Here's how it works with an example:
 
+<<<<<<< HEAD
 ### thankyou 
+=======
+### thankyou 
+>>>>>>> 3e56e6c71c042aeecbd2aeef5cc95de2a07d99dc
