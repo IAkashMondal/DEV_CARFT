@@ -1,6 +1,6 @@
 // Import the necessary modules and functions
-const { connectToDatabase } = require("./Config/db.js"); // Database connection function
 const express = require("express"); // Express framework
+const { connectToDatabase } = require("./Config/db.js"); // Database connection function
 require("dotenv").config(); // Load environment variables from .env file
 const JcbModel = require("./Models/Jcb.Models.js"); // Mongoose model for Jcbs
 const TruckModel = require("./Models/Trucks.Models.js"); // Mongoose model for Trucks
